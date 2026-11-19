@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PAKK | Find a home that fits your block</title>
+  <meta name="description" content="PAKK matches renters with homes by what they need and the community vibe they want to live in.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #0F766E; --teal-dark: #0B5A54; --teal-deep: #0E4642; --teal-tint: #E3F1EF;
+      --bg: #FAFAF9; --ink: #14110F; --muted: #57534E; --line: #E7E5E4;
+      --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-head: "Bricolage Grotesque", "Figtree", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 1.0625rem/1.65 var(--font-body); -webkit-font-smoothing: antialiased; }
+    h1, h2, h3 { margin: 0; font-family: var(--font-head); letter-spacing: -0.03em; line-height: 1.08; }
+    p { margin: 0; }
+
+    /* Hero: put a photo at hero.jpg. Without it you get the teal gradient. */
+    .hero {
+      position: relative; min-height: min(78vh, 640px);
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+      padding: 1.5rem 1.25rem 1.5rem; text-align: center; color: #fff;
+      background: linear-gradient(150deg, #138A80, #0B5A54);
+      overflow: hidden;
+    }
+    .hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(8, 35, 33, 0.45), rgba(8, 35, 33, 0.55)); }
+    .hero > *:not(img) { position: relative; z-index: 2; }
+
+    .title {
+      background: var(--bg); color: var(--ink); border-radius: 16px;
+      padding: 0.9rem 1.75rem; box-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.5);
+      font: 800 clamp(1.4rem, 3.6vw, 2.3rem)/1.15 var(--font-head); letter-spacing: -0.02em;
+    }
+    .title span { color: var(--teal); }
+
+    .cta {
+      display: inline-block; text-decoration: none; background: var(--teal); color: #fff;
+      font: 600 1.2rem var(--font-body); padding: 1.1rem 2.4rem; border-radius: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 16px 30px -12px rgba(0, 0, 0, 0.55); transition: background 0.15s, transform 0.15s;
+    }
+    .cta:hover { background: var(--teal-dark); transform: translateY(-2px); }
+    .cta:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+
+    .scroll { background: var(--bg); color: var(--teal-dark); text-decoration: none; font-size: 0.95rem; font-weight: 600; padding: 0.3rem 1rem; border-radius: 999px; }
+
+    /* About */
+    .about { max-width: 1120px; margin: 0 auto; padding: clamp(3.5rem, 8vw, 6rem) clamp(1.25rem, 4vw, 2.5rem); }
+    .about h2.head { text-align: center; font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; color: var(--teal); }
+    .about h2.head::before, .about h2.head::after { content: "\2014"; margin: 0 0.8rem; color: var(--teal); opacity: 0.5; }
+
+    .cols { margin-top: clamp(2.5rem, 6vw, 4rem); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
+    .brand { background: #fff; border: 1px solid var(--line); border-radius: 28px; padding: 2.5rem 1.5rem; text-align: center; }
+    .mark { width: 5.5rem; height: 5.5rem; margin: 0 auto 1.25rem; border-radius: 50%; background: var(--teal); color: #fff; display: grid; place-items: center; font: 800 2.8rem var(--font-head); }
+    .brand strong { display: block; font: 800 2.2rem var(--font-head); letter-spacing: -0.02em; color: var(--teal); }
+    .brand span { display: block; margin-top: 0.4rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+    .col h3 { font-size: 1.5rem; font-weight: 800; color: var(--teal); margin-bottom: 0.9rem; }
+    .col p { color: var(--muted); }
+
+    .vibes { margin-top: 1.1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; list-style: none; }
+    .vibes li { display: inline-flex; align-items: center; gap: 0.45rem; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 0.3rem 0.85rem 0.3rem 0.7rem; font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+    .vibes li::before { content: ""; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--dot); }
+    .vibes .a { --dot: #E07A52; } .vibes .b { --dot: #3FA472; } .vibes .c { --dot: #A56BC4; } .vibes .d { --dot: #5E92BC; }
+
+    .more { text-align: center; padding-bottom: clamp(3.5rem, 8vw, 5.5rem); }
+    .more .cta { border-color: transparent; }
+
+    footer { padding: 1.5rem; text-align: center; font-size: 0.9rem; color: var(--muted); border-top: 1px solid var(--line); }
+
+    @media (max-width: 860px) {
+      .cols { grid-template-columns: 1fr; }
+      .brand { max-width: 380px; margin: 0 auto; width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <img src="hero.jpg" alt="" onerror="this.remove()">
+    <h1 class="title">PAKK: Find a Home That <span>Fits Your Block</span></h1>
+    <!-- Change this link if your full website lives somewhere else -->
+    <a class="cta" href="https://keyacoates.github.io/PAKKWebsite/">Check out PAKK &rarr;</a>
+    <a class="scroll" href="#about">Scroll down to learn more</a>
+  </header>
+
+  <main>
+    <section class="about" id="about">
+      <h2 class="head">About Us</h2>
+
+      <div class="cols">
+        <div class="brand">
+          <div class="mark">P</div>
+          <strong>PAKK</strong>
+          <span>Home matching by neighborhood vibe</span>
+        </div>
+
+        <div class="col">
+          <h3>Mission Statement</h3>
+          <p>Renters need a way to quickly find housing that matches their needs, so they can stay deeply connected to the communities they love. PAKK matches you with homes based on what matters to you, not just a price tag and a pin on a map.</p>
+        </div>
+
+        <div class="col">
+          <h3>Why Us?</h3>
+          <p>Most rental sites filter by apartment specs alone. PAKK also lets you choose the daily culture you want around your front door.</p>
+          <ul class="vibes">
+            <li class="a">Walkable &amp; Cafe Culture</li>
+            <li class="b">Active &amp; Outdoorsy</li>
+            <li class="c">Artsy &amp; Independent</li>
+            <li class="d">Quiet &amp; Tight-Knit</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="more">
+      <a class="cta" href="https://keyacoates.github.io/PAKKWebsite/">Check out PAKK &rarr;</a>
+    </div>
+  </main>
+
+  <footer>&copy; 2026 PAKK &middot; Starting in Hoboken, NJ</footer>
+
+</body>
+</html>
